@@ -1,0 +1,24 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  mqtt-s3:
+    lang: python3-flask
+    handler: ./mqtt-s3
+    image: alexellis2/mqtt-s3:0.1.2
+    environment:
+      s3_host: "minio.default:9000"
+      s3_region: "us-east-1"
+      s3_bucket: "sensor-data"
+      RAW_BODY: true
+    annotations:
+      topic: openfaas-sensor-data
+    secrets:
+      - access-key
+      - secret-key
+
+configuration:
+  templates:
+    - name: python3-flask
