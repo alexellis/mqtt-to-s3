@@ -1,10 +1,24 @@
-# mqtt-s3
+# mqtt-to-s3
 
 Store MQTT messages in S3
 
+This sample uses an [OpenFaaS MQTT-connector](https://github.com/openfaas/mqtt-connector) along with a Python function to receive JSON messages from MQTT and to store them in an S3 bucket.
+
+The use-case could be ingestion of IoT sensor data from edge devices. It is a starting point, and easy to modify for your own uses.
+
 ## Installation
 
-Make sure have Minio and OpenFaaS installed to your Kubernetes cluster:
+Install arkade, the open-source Kubernetes marketplace:
+
+```bash
+# Move arkade into your $PATH
+curl -sLS https://dl.get-arkade.dev | sh
+
+# Or have arkade move itself into /usr/local/bin/
+curl -sLS https://dl.get-arkade.dev | sudo sh
+```
+
+Make sure have [Minio](https://min.io/) and [OpenFaaS](https://www.openfaas.com/) installed to your Kubernetes cluster:
 
 ```bash
 # Follow the post-install instructions to log in and start
