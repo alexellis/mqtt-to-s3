@@ -64,14 +64,10 @@ mc ls minio/sensor-data
 Then install the mqtt-connector, which will invoke your functions:
 
 ```bash
-git clone --depth=1 https://github.com/openfaas/faas-netes
-cd faas-netes/chart
-
-helm template mqtt-connector --namespace openfaas mqtt-connector/  \
- --set topic=openfaas-sensor-data \
- --set broker=tcp://test.mosquitto.org:8883 \
- --set clientID=mqtt-connector1 \
-  | kubectl apply -f -
+arkade install mqtt-connector \
+  --topics openfaas-sensor-data \
+  --broker-host tcp://test.mosquitto.org:1883 \
+  --client-id mqtt-connector-1
 
 kubectl logs deploy/mqtt-connector -n openfaas -f
 ```
