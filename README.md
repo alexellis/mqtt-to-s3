@@ -8,7 +8,7 @@ The use-case could be ingestion of IoT sensor data from edge devices. It is a st
 
 ## Installation
 
-Install arkade, the open-source Kubernetes marketplace:
+Install [arkade](https://get-arkade.dev), the open-source Kubernetes marketplace:
 
 ```bash
 # Move arkade into your $PATH
