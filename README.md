@@ -18,14 +18,16 @@ curl -sLS https://dl.get-arkade.dev | sh
 curl -sLS https://dl.get-arkade.dev | sudo sh
 ```
 
-Make sure have [Minio](https://min.io/) and [OpenFaaS](https://www.openfaas.com/) installed to your Kubernetes cluster:
+Install [Minio](https://min.io/) and [OpenFaaS](https://www.openfaas.com/) to your Kubernetes cluster, and follow related post-install instructions:
 
 ```bash
-# Follow the post-install instructions to log in and start
-# port-forwarding.
 arkade install openfaas
+# Then follow the post-install instructions to log in and start
+# port-forwarding.
 
 arkade install minio
+# Then follow the post-install instructions to log in and start
+# port-forwarding.
 ```
 
 Get CLIs for the Minio client and OpenFaaS:
@@ -38,6 +40,8 @@ arkade get faas-cli
 Then set up secret for Minio:
 
 ```bash
+echo $SECRETKEY >> ./secret-key.txt
+echo $ACCESSKEY >> ./access-key.txt
 faas-cli secret create secret-key --from-file ./secret-key.txt
 faas-cli secret create access-key --from-file ./access-key.txt
 ```
@@ -75,6 +79,11 @@ kubectl logs deploy/mqtt-connector -n openfaas -f
 Next, deploy the functions:
 
 ```bash
+# Change directory to this cloned repo
+
+# get the template this function depends on
+faas-cli template store pull python3-flask
+# deploy this function
 faas-cli deploy
 ```
 
@@ -106,13 +115,42 @@ Check the logs of the function to see that it was invoked:
 
 ```bash
 faas-cli logs mqtt-s3
+
+2021-03-14T13:49:13Z 2021/03/14 13:49:13 POST / - 200 OK - ContentLength: 2
+2021-03-14T13:50:01Z 2021/03/14 13:50:01 POST / - 200 OK - ContentLength: 2
 ```
 
 Now check the contents of your S3 bucket with `mc`:
 
 ```
 mc ls minio/sensor-data
+
+[2021-03-14 09:50:01 EDT]    35B 23c7cb33-246c-4173-af3e-5ce2898aa564.json
+[2021-03-14 09:49:13 EDT]    35B 77fb7012-e893-40d6-b23f-477a143bcb5f.json
 ```
 
 You should see a number of .json files created for each message you create with the sender.
+
+Now check the contents of your S3 bucket with `mc`:
+
+```bash
+mc ls minio/sensor-data
+
+[2021-03-03 12:26:20 GMT]    10B a3832ae7-3381-41b7-a0f0-c53533728a1f.json
+```
+
+You can also retrieve the file to view it with:
+
+```bash
+mc cp minio/sensor-data/a3832ae7-3381-41b7-a0f0-c53533728a1f.json .
+```
+
+Now view the result stored in the file:
+
+```bash
+cat a3832ae7-3381-41b7-a0f0-c53533728a1f.json
+
+{"sensor_id": 1, "temperature_c": 53}
+```
+
 
