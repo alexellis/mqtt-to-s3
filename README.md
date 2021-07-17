@@ -37,13 +37,16 @@ arkade get mc
 arkade get faas-cli
 ```
 
+You must have the latest version of faas-cli for this step, check it with `faas-cli version`
+
 Then set up secret for Minio:
 
 ```bash
-echo $SECRETKEY >> ./secret-key.txt
-echo $ACCESSKEY >> ./access-key.txt
-faas-cli secret create secret-key --from-file ./secret-key.txt
-faas-cli secret create access-key --from-file ./access-key.txt
+echo -n $SECRETKEY > ./secret-key.txt
+echo -n $ACCESSKEY > ./access-key.txt
+
+faas-cli secret create secret-key --from-file ./secret-key.txt --trim
+faas-cli secret create access-key --from-file ./access-key.txt --trim
 ```
 
 Setup `mc` to access Minio:
@@ -61,7 +64,12 @@ Then make a bucket for the sensor data:
 ```bash
 mc mb minio/sensor-data
 
-# Show that it's empty
+# Show the bucket exists:
+
+mc ls minio
+[2021-07-17 12:34:06 BST]     0B sensor-data/
+
+# Show that it's empty, and found
 mc ls minio/sensor-data
 ```
 
@@ -83,6 +91,7 @@ Next, deploy the functions:
 
 # get the template this function depends on
 faas-cli template store pull python3-flask
+
 # deploy this function
 faas-cli deploy
 ```
