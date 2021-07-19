@@ -76,10 +76,15 @@ mc ls minio/sensor-data
 Then install the mqtt-connector, which will invoke your functions:
 
 ```bash
+# Use a unique client ID
+# client ID conflicts will cause connect events to fire over and over
+# https://github.com/eclipse/paho.mqtt.golang#common-problems
+CLIENT_ID=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
+
 arkade install mqtt-connector \
   --topics openfaas-sensor-data \
   --broker-host tcp://test.mosquitto.org:1883 \
-  --client-id mqtt-connector-1
+  --client-id $CLIENT_ID
 
 kubectl logs deploy/mqtt-connector -n openfaas -f
 ```
