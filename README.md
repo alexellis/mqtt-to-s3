@@ -1,6 +1,6 @@
 # mqtt-to-s3
 
-Store MQTT messages in S3
+Store MQTT messages in S3 - part of the course [Introduction to Kubernetes on Edge with K3s](https://www.edx.org/course/introduction-to-kubernetes-on-edge-with-k3s)
 
 This sample uses an [OpenFaaS MQTT-connector](https://github.com/openfaas/mqtt-connector) along with a Python function to receive JSON messages from MQTT and to store them in an S3 bucket.
 
