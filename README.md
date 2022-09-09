@@ -92,7 +92,8 @@ kubectl logs deploy/mqtt-connector -n openfaas -f
 Next, deploy the functions:
 
 ```bash
-# Change directory to this cloned repo
+# Change directory to the function folder
+cd mqtt-s3-example
 
 # get the template this function depends on
 faas-cli template store pull python3-flask
@@ -145,26 +146,17 @@ mc ls minio/sensor-data
 
 You should see a number of .json files created for each message you create with the sender.
 
-Now check the contents of your S3 bucket with `mc`:
+
+To view the result stored in the file:
 
 ```bash
-mc ls minio/sensor-data
-
-[2021-03-03 12:26:20 GMT]    10B a3832ae7-3381-41b7-a0f0-c53533728a1f.json
-```
-
-You can also retrieve the file to view it with:
-
-```bash
-mc cp minio/sensor-data/a3832ae7-3381-41b7-a0f0-c53533728a1f.json .
-```
-
-Now view the result stored in the file:
-
-```bash
-cat a3832ae7-3381-41b7-a0f0-c53533728a1f.json
+mc cat 23c7cb33-246c-4173-af3e-5ce2898aa564.json
 
 {"sensor_id": 1, "temperature_c": 53}
 ```
 
+You can also retrieve the file:
 
+```bash
+mc cp minio/sensor-data/23c7cb33-246c-4173-af3e-5ce2898aa564.json .
+```
