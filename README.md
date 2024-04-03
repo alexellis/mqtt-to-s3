@@ -8,14 +8,14 @@ The use-case could be ingestion of IoT sensor data from edge devices. It is a st
 
 ## Installation
 
-Install [arkade](https://get-arkade.dev), the open-source Kubernetes marketplace:
+Install [arkade](https://arkade.dev), the open-source Kubernetes marketplace:
 
 ```bash
 # Move arkade into your $PATH
-curl -sLS https://dl.get-arkade.dev | sh
+curl -sLS https://get.arkade.dev | sh
 
 # Or have arkade move itself into /usr/local/bin/
-curl -sLS https://dl.get-arkade.dev | sudo sh
+curl -sLS https://get.arkade.dev | sudo sh
 ```
 
 Install [Minio](https://min.io/) and [OpenFaaS](https://www.openfaas.com/) to your Kubernetes cluster, and follow related post-install instructions:
